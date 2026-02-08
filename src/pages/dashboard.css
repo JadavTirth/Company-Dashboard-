@@ -1,0 +1,10 @@
+.table-dark-transparent > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: #ffffff;
+  border-color: #000000;
+}
+.table-dark-transparent > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: #ffffff;
+  border-color: #000000;
+}
