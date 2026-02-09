@@ -7,6 +7,9 @@ import Swal from "sweetalert2";
 import API from "../api"
 
 function InternAdd() {
+
+    console.log("API URL =>", import.meta.env.VITE_API_URL);
+
     const navigate = useNavigate();
 
     const [form, setForm] = useState({
