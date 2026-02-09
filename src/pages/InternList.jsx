@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import NavbarFixed from "../components/Navbar";
 import "./dashboard.css";
-import axios from "axios";
+import API from "../api"
 
 function InternList() {
   const navigate = useNavigate();
@@ -31,20 +31,18 @@ function InternList() {
 
   // Load Interns
   const loadInterns = () => {
-    axios
-      .get("http://localhost:8000/api/website/enquiry/list")
+    API
+      .get("/api/website/enquiry/list")
       .then((res) => {
         if (res.data.status) {
-          // To ensure new entries are at the bottom:
-          // If your API returns new items first, use .reverse()
-          // If your API returns old items first, just use res.data.data
-          setList(res.data.data); 
+          setList(res.data.data);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
 
   useEffect(() => {
     loadInterns();
@@ -68,8 +66,8 @@ function InternList() {
       confirmButtonText: "Yes, delete",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`http://localhost:8000/api/website/enquiry/delete/${id}`)
+        API
+          .delete(`/api/website/enquiry/delete/${id}`)
           .then(() => {
             Swal.fire("Deleted!", "Intern removed successfully.", "success");
             loadInterns();
@@ -80,6 +78,7 @@ function InternList() {
       }
     });
   };
+
 
   // Calculate dynamic colSpan for the "No data found" row
   const activeColsCount = Object.values(cols).filter(Boolean).length + 2; // +2 for # and Action
@@ -114,12 +113,12 @@ function InternList() {
           <Row className="mb-3">
             <Col className="text-white small">
               {Object.keys(cols).map((key) => (
-                <Form.Check 
+                <Form.Check
                   key={key}
-                  inline 
-                  label={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')} 
+                  inline
+                  label={key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
                   checked={cols[key]}
-                  onChange={() => toggleCol(key)} 
+                  onChange={() => toggleCol(key)}
                 />
               ))}
             </Col>

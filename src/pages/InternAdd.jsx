@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import NavbarFixed from "../components/Navbar";
 import "./dashboard.css";
 import Swal from "sweetalert2";
+import API from "../api"
 
 function InternAdd() {
     const navigate = useNavigate();
@@ -32,21 +32,19 @@ function InternAdd() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // 1. Email Validation Logic
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(form.email)) {
             return Swal.fire("Invalid Email", "Please enter a valid email address", "error");
         }
 
-        // 2. Phone Validation Logic (Checks for exactly 10 digits)
         const phoneRegex = /^[0-9]{10}$/;
         if (!phoneRegex.test(form.phone)) {
             return Swal.fire("Invalid Phone", "Please enter a valid 10-digit phone number", "error");
         }
 
         try {
-            const res = await axios.post(
-                "http://localhost:8000/api/website/enquiry/add",
+            const res = await API.post(
+                "/api/website/enquiry/add",
                 form
             );
 
@@ -61,6 +59,7 @@ function InternAdd() {
                     navigate("/internList");
                 });
             }
+
         } catch (err) {
             console.log(err);
             Swal.fire({
@@ -89,7 +88,7 @@ function InternAdd() {
                                             <Col md={6}>
                                                 <Form.Control placeholder="Last name" name="lastName" value={form.lastName} onChange={handleChange} required />
                                             </Col>
-                                            
+
                                             {/* Email Field */}
                                             <Col md={6}>
                                                 <Form.Control type="email" placeholder="Email Address" name="email" value={form.email} onChange={handleChange} required />
