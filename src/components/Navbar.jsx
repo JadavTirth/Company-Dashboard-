@@ -28,7 +28,7 @@ function NavbarFixed() {
             WebkitTextFillColor: "transparent"
           }}
         >
-          Campus Admin
+          AnantaCode
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navbar" />

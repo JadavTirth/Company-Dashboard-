@@ -8,3 +8,8 @@
   color: #ffffff;
   border-color: #000000;
 }
+
+.table-text-black th,
+.table-text-black td {
+  color: #000 !important;
+}

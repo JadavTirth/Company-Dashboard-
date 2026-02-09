@@ -1,140 +1,125 @@
-import React from "react";
-import { Container, Row, Col, Card, Table, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Card, Button, Form, ListGroup } from "react-bootstrap";
 import NavbarFixed from "../components/Navbar";
-import "./dashboard.css";
+import API from "../api";
 
 function Dashboard() {
+
+  const [note, setNote] = useState("");
+  const [notes, setNotes] = useState([]);
+
+  // Load all notes
+  const loadNotes = async () => {
+    try {
+      const res = await API.get("/api/notes/");
+      setNotes(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    loadNotes();
+  }, []);
+
+  // Add note
+  const addNote = async (e) => {
+    e.preventDefault();
+
+    if (!note.trim()) return;
+
+    try {
+      await API.post("/api/notes/", { text: note });
+      setNote("");
+      loadNotes();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // Delete note
+  const deleteNote = async (id) => {
+    try {
+      await API.delete(`/api/notes/${id}`);
+      loadNotes();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <NavbarFixed />
 
-      {/* Page Background */}
-      <div style={{ minHeight: "100vh", backgroundColor: "#0b0f19" }}>
-        <Container fluid className="py-4 px-4">
+      <div style={{ minHeight: "100vh", background: "#0b0f19" }}>
+        <Container className="pt-4">
 
-          <h4 className="text-white mb-4 fw-bold">
-            Intern & Events Dashboard
-          </h4>
+          <Card
+            className="text-white border-0"
+            style={{ backgroundColor: "#111827", minHeight: "75vh" }}
+          >
+            <Card.Body
+              className="d-flex flex-column"
+              style={{ minHeight: "75vh" }}
+            >
 
-          {/* Top Stats Cards */}
-          <Row className="mb-4">
+              <h4 className="fw-bold mb-3">Notes Board</h4>
 
-            <Col md={3}>
-              <Card className="text-white border-0 mb-3" style={{ backgroundColor: "#111827" }}>
-                <Card.Body>
-                  <small className="text-white-50">Total Interns</small>
-                  <h3 className="fw-bold mt-2">42</h3>
-                </Card.Body>
-              </Card>
-            </Col>
+              {/* Notes list */}
+              <div style={{ overflowY: "auto", flex: 1 }}>
 
-            <Col md={3}>
-              <Card className="text-white border-0 mb-3" style={{ backgroundColor: "#111827" }}>
-                <Card.Body>
-                  <small className="text-white-50">Active Interns</small>
-                  <h3 className="fw-bold mt-2">28</h3>
-                </Card.Body>
-              </Card>
-            </Col>
+                <ListGroup variant="flush">
 
-            <Col md={3}>
-              <Card className="text-white border-0 mb-3" style={{ backgroundColor: "#111827" }}>
-                <Card.Body>
-                  <small className="text-white-50">Upcoming Events</small>
-                  <h3 className="fw-bold mt-2">5</h3>
-                </Card.Body>
-              </Card>
-            </Col>
+                  {notes.length === 0 && (
+                    <div className="text-white-50 text-center mt-4">
+                      No notes yet
+                    </div>
+                  )}
 
-            <Col md={3}>
-              <Card className="text-white border-0 mb-3" style={{ backgroundColor: "#111827" }}>
-                <Card.Body>
-                  <small className="text-white-50">System Status</small>
-                  <h5 className="fw-bold mt-2 text-success">Online</h5>
-                </Card.Body>
-              </Card>
-            </Col>
+                  {notes.map((n) => (
+                    <ListGroup.Item
+                      key={n._id}
+                      className="d-flex justify-content-between align-items-center"
+                      style={{
+                        background: "transparent",
+                        color: "white",
+                        borderColor: "#1f2933"
+                      }}
+                    >
+                      <span>{n.text}</span>
 
-          </Row>
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => deleteNote(n._id)}
+                      >
+                        Delete
+                      </Button>
+                    </ListGroup.Item>
+                  ))}
 
-          {/* Main Section */}
-          <Row>
+                </ListGroup>
+              </div>
 
-            {/* Recent Intern Activities */}
-            <Col md={8}>
-              <Card className="text-white border-0 mb-4" style={{ backgroundColor: "#111827" }}>
-                <Card.Body>
+              {/* Bottom input */}
+              <Form
+                onSubmit={addNote}
+                className="d-flex gap-2 mt-3"
+              >
+                <Form.Control
+                  placeholder="Write your note..."
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  
+                />
 
-                  <h6 className="fw-bold mb-3">
-                    Recent Intern Activities
-                  </h6>
+                <Button type="submit" variant="success">
+                  Add
+                </Button>
+              </Form>
 
-                  <Table
-                    responsive
-                    bordered
-                    className="align-middle mb-0 table-dark-transparent"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Intern ID</th>
-                        <th>Name</th>
-                        <th>Event</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr>
-                        <td>INT-101</td>
-                        <td>Rahul Patel</td>
-                        <td>Tech Workshop</td>
-                        <td className="text-success">Assigned</td>
-                      </tr>
-                      <tr>
-                        <td>INT-108</td>
-                        <td>Neha Shah</td>
-                        <td>Campus Drive</td>
-                        <td className="text-success">Present</td>
-                      </tr>
-                      <tr>
-                        <td>INT-112</td>
-                        <td>Aman Joshi</td>
-                        <td>Hackathon</td>
-                        <td className="text-warning">Pending</td>
-                      </tr>
-                    </tbody>
-                  </Table>
-
-                </Card.Body>
-              </Card>
-            </Col>
-
-            {/* Quick Actions */}
-            <Col md={4}>
-              <Card className="text-white border-0" style={{ backgroundColor: "#111827" }}>
-                <Card.Body>
-
-                  <h6 className="fw-bold mb-3">
-                    Quick Actions
-                  </h6>
-
-                  <div className="d-grid gap-2">
-                    <Button variant="outline-light">
-                      Add Intern
-                    </Button>
-                    <Button variant="outline-light">
-                      Create Event
-                    </Button>
-                    <Button variant="outline-light">
-                      View Intern List
-                    </Button>
-                  </div>
-
-                </Card.Body>
-              </Card>
-            </Col>
-
-          </Row>
+            </Card.Body>
+          </Card>
 
         </Container>
       </div>

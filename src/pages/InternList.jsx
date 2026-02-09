@@ -129,7 +129,8 @@ function InternList() {
             <Col>
               <Card className="text-white border-0" style={{ backgroundColor: "#111827" }}>
                 <Card.Body>
-                  <Table responsive bordered className="align-middle mb-0 table-transparent text-white">
+                  <Table responsive bordered className="align-middle mb-0 table-transparent table-text-black">
+
                     <thead>
                       <tr>
                         <th>#</th>
