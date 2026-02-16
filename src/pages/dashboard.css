@@ -13,3 +13,66 @@
 .table-text-black td {
   color: #000 !important;
 }
+
+
+
+
+
+.event-card {
+  background-color: #111827;
+  color: #ffffff;
+}
+
+.event-card p,
+.event-card small,
+.event-card span {
+  color: #e5e7eb !important;
+}
+
+.event-card .text-muted {
+  color: #cbd5e1 !important;
+}
+
+
+
+
+
+/* add intern page */
+.modern-card {
+  background: #111827;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modern-input {
+  background-color: #1f2937 !important;
+  border: 1px solid #374151 !important;
+  color: #fff !important;
+  padding: 10px;
+}
+
+.modern-input:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4) !important;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #9ca3af;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.gradient-btn {
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  border: none;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.gradient-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+}

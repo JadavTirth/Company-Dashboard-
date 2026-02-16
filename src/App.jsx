@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard';
 import Event from './pages/Events';
 import InternList from './pages/InternList';
 import InternAdd from './pages/InternAdd';
+import CreateEvent from './pages/CreateEvent';
+import EditEvent from './pages/EventEdit';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/internList" element={<InternList />} />
         <Route path="/event" element={<Event />} />
         <Route path="/intern-add" element={<InternAdd/>} />
+        <Route path="/create-event" element={<CreateEvent/>} />
+        <Route path="/edit-event/:id" element={<EditEvent />} />
       </Routes>
     </div>
   );
